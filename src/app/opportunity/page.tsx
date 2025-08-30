@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, useAnimation, useInView } from 'framer-motion'
+import { useState, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { ProgressChart } from '@/components/ui/progress-chart'
 import { AnimatedCounter } from '@/components/ui/animated-counter'
 import { InteractiveTimeline } from '@/components/ui/interactive-timeline'
@@ -77,7 +77,7 @@ export default function OpportunityPage() {
             <h3 className="text-xl font-semibold text-red-800 mb-4">Current State</h3>
             <p className="text-red-700">
               Businesses rely on OCR tools to digitize paper invoices - a time-consuming, 
-              error-prone process that we've solved with InvoiceOCR.
+              error-prone process that we&apos;ve solved with InvoiceOCR.
             </p>
           </motion.div>
           <motion.div 
@@ -149,7 +149,7 @@ export default function OpportunityPage() {
             { title: 'Format Complexity', desc: 'Multiple standards (UBL, CII, Peppol, country-specific)' },
             { title: 'Integration Nightmare', desc: 'ERP systems need costly upgrades' },
             { title: 'Compliance Burden', desc: 'Real-time validation, digital signatures, tax reporting' },
-            { title: 'SME Accessibility', desc: 'Small businesses can\'t afford enterprise solutions' }
+            { title: 'SME Accessibility', desc: 'Small businesses can&apos;t afford enterprise solutions' }
           ].map((problem, index) => (
             <motion.div
               key={index}
@@ -172,7 +172,7 @@ export default function OpportunityPage() {
             className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full text-xl font-semibold"
             whileHover={{ scale: 1.05 }}
           >
-            "The Shopify of E-Invoicing"
+&quot;The Shopify of E-Invoicing&quot;
           </motion.div>
           <p className="text-lg text-gray-600 mt-4">Making global e-invoicing as simple as sending an email</p>
         </div>
@@ -382,7 +382,7 @@ export default function OpportunityPage() {
           initial={{ y: 20 }}
           whileInView={{ y: 0 }}
         >
-          The Question Isn't Whether E-Invoicing Will Replace OCR
+          The Question Isn&apos;t Whether E-Invoicing Will Replace OCR
         </motion.h2>
         <motion.p 
           className="text-xl mb-8 max-w-3xl mx-auto"
@@ -390,7 +390,7 @@ export default function OpportunityPage() {
           whileInView={{ y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          It's whether we'll lead the next generation of invoice automation or watch others capture this massive opportunity.
+          It&apos;s whether we&apos;ll lead the next generation of invoice automation or watch others capture this massive opportunity.
         </motion.p>
         <motion.button
           className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
