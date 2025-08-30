@@ -80,7 +80,7 @@ export function FileUpload({
       setSelectedFiles(newFiles)
       onFilesSelected(validFiles)
     }
-  }, [selectedFiles, multiple, onFilesSelected, maxSize, accept])
+  }, [selectedFiles, multiple, onFilesSelected, maxSize, accept, validateFile])
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -114,7 +114,7 @@ export function FileUpload({
 
   const getFileIcon = (file: File) => {
     if (file.type.startsWith('image/')) {
-      return <Image className="h-4 w-4" />
+      return <Image className="h-4 w-4" aria-hidden="true" />
     }
     if (file.type === 'application/pdf') {
       return <FileText className="h-4 w-4" />

@@ -347,7 +347,7 @@ export class EnterpriseOCRService {
     }
   }
 
-  async healthCheck(): Promise<{ status: 'ok' | 'error', details: any }> {
+  async healthCheck(): Promise<{ status: 'ok' | 'error', details: Record<string, unknown> }> {
     try {
       if (!this.isInitialized) {
         await this.initialize()

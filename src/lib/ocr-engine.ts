@@ -1,7 +1,8 @@
 import { createWorker, Worker } from 'tesseract.js'
 
 // Dynamic import for PDF.js to avoid SSR issues
-let pdfjs: any = null
+// @ts-expect-error - Dynamic import of pdf.js library
+let pdfjs: typeof import('react-pdf')['pdfjs'] | null = null
 
 async function loadPdfjs() {
   if (typeof window !== 'undefined' && !pdfjs) {
@@ -113,7 +114,7 @@ export class EnterpriseOCREngine {
       
       // Basic initialization with optimal settings
       await this.worker.setParameters({
-        tessedit_pageseg_mode: 6 as any,
+        tessedit_pageseg_mode: '6' as const,
         preserve_interword_spaces: '1',
         tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,/$():- \n\t',
       })
@@ -244,7 +245,7 @@ export class EnterpriseOCREngine {
     const ocrConfigs = this.getOCRConfigurations()
     
     // Process all combinations and find the best result
-    const bestResult = await this.performMultiEngineOCR(imageVariants, ocrConfigs, filename)
+    const bestResult = await this.performMultiEngineOCR(imageVariants, ocrConfigs)
     
     return bestResult.text
   }
@@ -319,7 +320,7 @@ export class EnterpriseOCREngine {
     width: number, 
     height: number, 
     name: string, 
-    options: any
+    options: Record<string, unknown>
   ): Promise<ImageVariant> {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')!
@@ -495,8 +496,7 @@ export class EnterpriseOCREngine {
 
   private async performMultiEngineOCR(
     imageVariants: ImageVariant[], 
-    ocrConfigs: OCRConfig[], 
-    filename: string
+    ocrConfigs: OCRConfig[]
   ): Promise<OCRResult> {
     console.log(`🔄 Starting multi-engine OCR: ${imageVariants.length} variants × ${ocrConfigs.length} configs = ${imageVariants.length * ocrConfigs.length} attempts`)
     
@@ -516,7 +516,7 @@ export class EnterpriseOCREngine {
           
           // Configure OCR engine for this attempt
           const parameters = {
-            tessedit_pageseg_mode: parseInt(config.psm) as any,
+            tessedit_pageseg_mode: config.psm as const,
             ...config.parameters
           }
           

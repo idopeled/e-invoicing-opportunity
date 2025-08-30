@@ -14,13 +14,6 @@ interface ParsedAmount {
   source: string
 }
 
-interface FieldMatch {
-  field: string
-  value: string
-  confidence: number
-  lineIndex: number
-  method: string
-}
 
 export class IntelligentParser {
   private config: ParsingConfig = {
@@ -66,7 +59,7 @@ export class IntelligentParser {
       invoiceData.items = this.extractLineItems(cleanedLines)
       
       // Strategy 6: Additional business data
-      this.extractBusinessData(invoiceData, cleanedLines, rawText)
+      this.extractBusinessData(invoiceData, cleanedLines)
       
       // Post-processing validation and cleanup
       this.validateAndCleanData(invoiceData)
@@ -534,7 +527,7 @@ export class IntelligentParser {
     return items
   }
 
-  private extractBusinessData(invoiceData: ExtractedInvoiceData, lines: string[], rawText: string) {
+  private extractBusinessData(invoiceData: ExtractedInvoiceData, lines: string[]) {
     console.log('🏢 Extracting additional business data...')
     
     // Transaction-related patterns
@@ -550,7 +543,8 @@ export class IntelligentParser {
         if (!invoiceData[field as keyof ExtractedInvoiceData]) {
           const match = line.match(pattern)
           if (match && match[1]) {
-            (invoiceData as any)[field] = match[1].trim()
+            // @ts-ignore - Dynamic field assignment for transaction data
+            invoiceData[field as keyof ExtractedInvoiceData] = match[1].trim()
             console.log(`  💳 ${field}: ${match[1].trim()}`)
           }
         }
@@ -653,14 +647,14 @@ export class IntelligentParser {
 
   private normalizeTime(timeStr: string): string {
     // Clean up and normalize time format
-    let cleaned = timeStr.replace(/\s+/g, ' ').trim()
+    const cleaned = timeStr.replace(/\s+/g, ' ').trim()
     
     // Convert to 12-hour format if not already
     const match = cleaned.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM|am|pm)?/)
     if (match) {
       const hour = parseInt(match[1])
       const minute = match[2]
-      const second = match[3] || '00'
+      // const second = match[3] || '00' // Unused variable
       const ampm = match[4]?.toUpperCase()
       
       if (ampm) {

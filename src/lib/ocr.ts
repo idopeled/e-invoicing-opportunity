@@ -1,7 +1,8 @@
 import { createWorker, Worker } from 'tesseract.js'
 
 // Dynamic import for PDF.js to avoid SSR issues
-let pdfjs: any = null
+// @ts-expect-error - Dynamic import of pdf.js library
+let pdfjs: typeof import('react-pdf')['pdfjs'] | null = null
 
 async function loadPdfjs() {
   if (typeof window !== 'undefined' && !pdfjs) {
@@ -81,7 +82,7 @@ export class OCRService {
       console.log('Initializing OCR worker...')
       this.worker = await createWorker('eng')
       await this.worker.setParameters({
-        tessedit_pageseg_mode: 6 as any, // Uniform block of text
+        tessedit_pageseg_mode: '6' as const, // Uniform block of text
         preserve_interword_spaces: '1',
         tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,/$():- \n',
         // Improve number recognition

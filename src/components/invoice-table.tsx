@@ -19,8 +19,7 @@ import {
   Edit, 
   Trash2, 
   Search,
-  Filter,
-  MoreHorizontal
+  Filter
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -71,7 +70,7 @@ export function InvoiceTable({
           <Input
             defaultValue={value}
             className="h-8"
-            onBlur={(e) => {
+            onBlur={() => {
               // Handle update logic here
               setEditingCell(null)
             }}

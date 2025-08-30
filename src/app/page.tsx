@@ -33,7 +33,7 @@ export default function Home() {
       setProcessingStatus('⚡ Initializing Optimized OCR Engine...')
       await optimizedOCRService.initialize()
       const newInvoices: ExtractedInvoiceData[] = []
-      const processedResults: any[] = []
+      const processedResults: ExtractedInvoiceData[] = []
 
       for (let i = 0; i < uploadedFiles.length; i++) {
         const file = uploadedFiles[i]

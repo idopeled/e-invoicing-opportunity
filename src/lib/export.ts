@@ -8,6 +8,37 @@ export interface ExportOptions {
   dateFormat?: 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD'
 }
 
+export interface ExportRowData {
+  'Row': number
+  'Invoice Number': string
+  'Vendor': string
+  'Date': string
+  'Due Date': string
+  'Subtotal': number
+  'Tax': number
+  'Total': number
+  'Currency': string
+  'Bill To': string
+  'Items Count': number
+  'Raw Text Preview': string
+}
+
+export interface ItemExportData {
+  'Invoice Row': number
+  'Invoice Number': string
+  'Vendor': string
+  'Item #': number
+  'Description': string
+  'Quantity': number
+  'Unit Price': number
+  'Line Total': number
+}
+
+export interface SummaryData {
+  'Metric': string
+  'Value': string | number
+}
+
 export class ExportService {
   static formatDate(dateStr: string | undefined, format: string = 'MM/DD/YYYY'): string {
     if (!dateStr) return ''
@@ -38,7 +69,7 @@ export class ExportService {
   static prepareDataForExport(
     data: ExtractedInvoiceData[], 
     options: ExportOptions = {}
-  ): Record<string, any>[] {
+  ): ExportRowData[] {
     const { dateFormat = 'MM/DD/YYYY' } = options
     
     return data.map((invoice, index) => ({
@@ -124,7 +155,7 @@ export class ExportService {
 
     // Optional: Create separate sheet for line items
     if (includeItems) {
-      const itemsData: Record<string, any>[] = []
+      const itemsData: ItemExportData[] = []
       
       data.forEach((invoice, invoiceIndex) => {
         if (invoice.items && invoice.items.length > 0) {
@@ -169,7 +200,7 @@ export class ExportService {
     XLSX.writeFile(workbook, `${filename}_${timestamp}.xlsx`)
   }
 
-  private static generateSummary(data: ExtractedInvoiceData[]): Record<string, any>[] {
+  private static generateSummary(data: ExtractedInvoiceData[]): SummaryData[] {
     if (data.length === 0) return []
     
     const totalInvoices = data.length
